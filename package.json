@@ -19,6 +19,7 @@
   "dependencies": {
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "ltijs": "^4.1.1"
+    "ltijs": "^4.1.1",
+    "ltijs-sequelize": "^1.0.0"
   }
 }
