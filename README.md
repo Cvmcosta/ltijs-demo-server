@@ -7,7 +7,7 @@
 
 # Ltijs Demo Server
 
-> Ltijs v4.1 demo server
+> Ltijs v5 demo server
 
 ### Usage
 
