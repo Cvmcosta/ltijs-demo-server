@@ -20,6 +20,6 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "ltijs": "^5.0.0",
-    "ltijs-sequelize": "^1.0.3"
+    "ltijs-sequelize": "^1.0.5"
   }
 }
