@@ -2,7 +2,7 @@ const router = require('express').Router()
 const path = require('path')
 
 // Requiring Ltijs
-const lti = require(process.env.LTIJS).Provider
+const lti = require('ltijs').Provider
 
 // Grading route
 router.post('/grade', async (req, res) => {

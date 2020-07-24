@@ -2,7 +2,7 @@ require('dotenv').config()
 const path = require('path')
 const routes = require('./src/routes')
 
-const lti = require(process.env.LTIJS).Provider
+const lti = require('ltijs').Provider
 
 // Setup
 lti.setup(process.env.LTI_KEY,
@@ -11,13 +11,17 @@ lti.setup(process.env.LTI_KEY,
     connection: { user: process.env.DB_USER, pass: process.env.DB_PASS }
   }, {
     staticPath: path.join(__dirname, './public'), // Path to static files
-    cookies: { secure: false } // Cookies can be passed through insecure connections (http), allows for local testing
+    cookies: {
+      secure: false, // Set secure to true if the testing platform is in a different domain and https is being used
+      sameSite: '' // Set sameSite to 'None' if the testing platform is in a different domain and https is being used
+    },
+    devMode: false // Set DevMode to true if the testing platform is in a different domain and https is not being used
   })
 
-// Whitelisting the main app route and /nolti to use them as a landing page when accessed outside of LMSs
-lti.whitelist(lti.appRoute(), '/nolti')
+// Whitelisting the main app route and /nolti to create a landing page
+lti.whitelist(lti.appRoute(), { route: new RegExp(/^\/nolti$/), method: 'get' }) // Example Regex usage
 
-// When receiving successful LTI launch redirects to app
+// When receiving successful LTI launch redirects to app, otherwise redirects to landing page
 lti.onConnect(async (token, req, res, next) => {
   if (token) return res.sendFile(path.join(__dirname, './public/index.html'))
   else lti.redirect(res, '/nolti') // Redirects to landing page
@@ -25,9 +29,10 @@ lti.onConnect(async (token, req, res, next) => {
 
 // When receiving deep linking request redirects to deep link React screen
 lti.onDeepLinking(async (connection, request, response) => {
-  return lti.redirect(response, '/deeplink', { isNewResource: true })
+  return lti.redirect(response, '/deeplink', { newResource: true })
 })
 
+// Setting up routes
 lti.app.use(routes)
 
 // Setup function

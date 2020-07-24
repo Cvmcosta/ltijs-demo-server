@@ -1,7 +1,7 @@
 {
   "name": "ltijs-demo",
   "version": "1.0.0",
-  "description": "Ltijs demo website",
+  "description": "Ltijs demo server",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -19,7 +19,7 @@
   "dependencies": {
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "ltijs": "^4.1.1",
+    "ltijs": "^5.0.0",
     "ltijs-sequelize": "^1.0.3"
   }
 }
