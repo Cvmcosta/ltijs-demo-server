@@ -43,7 +43,7 @@ Use `gp env` to set the environment variables once:
 eval $(gp env -e DB_HOST=localhost DB_NAME=ltimoodle LTI_KEY=JB3LabPQP9tX4jw4XhkqUEi8Vu7UbzmG)
 ```
 
-The environment variables will be stored to you local container and retrieved afterwards. Choose your own LTI_KEY.
+The environment variables will be stored to your local container and retrieved afterwards. Choose your own LTI_KEY.
 
 The application can be started using `npm start` in the terminal.
 
