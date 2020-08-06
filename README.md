@@ -33,6 +33,8 @@
 
 ### Usage on gitpod.io
 
+Open https://gitpod.io/#https://github.com/Cvmcosta/ltijs-demo-server to start this application on Gitpod.
+
 The gitpod configuration starts a local database server.
 
 Use `gp env` to set the environment variables once:
