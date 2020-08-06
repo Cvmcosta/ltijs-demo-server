@@ -43,6 +43,8 @@ eval $(gp env -e DB_HOST=localhost DB_NAME=ltimoodle LTI_KEY=JB3LabPQP9tX4jw4Xhk
 
 The application can be started using `npm start`.
 
+Execute `gp url 3000` in a new terminal to retrieve the base URL.
+
 ### React application
 
  The code for the react application used with this project can be found [here](https://github.com/Cvmcosta/ltijs-demo-client).
