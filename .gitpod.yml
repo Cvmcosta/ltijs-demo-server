@@ -5,3 +5,9 @@ tasks:
   - init: npm install
     command: npm run start
   - command: mongod
+    openMode: split-right
+
+ports:
+  - port: 3000
+  - port: 27017
+    onOpen: ignore

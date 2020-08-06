@@ -31,6 +31,18 @@
 
 - Run `npm start` 
 
+### Usage on gitpod.io
+
+The gitpod entry starts a local database server.
+
+Use `gp env` to set the environment variables:
+
+```
+eval $(gp env -e DB_HOST=localhost DB_NAME=ltimoodle LTI_KEY=JB3LabPQP9tX4jw4XhkqUEi8Vu7UbzmG)
+```
+
+The application can be started using `npm start`.
+
 ### React application
 
  The code for the react application used with this project can be found [here](https://github.com/Cvmcosta/ltijs-demo-client).
