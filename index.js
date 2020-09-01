@@ -22,14 +22,14 @@ lti.setup(process.env.LTI_KEY,
 lti.whitelist(lti.appRoute(), { route: new RegExp(/^\/nolti$/), method: 'get' }) // Example Regex usage
 
 // When receiving successful LTI launch redirects to app, otherwise redirects to landing page
-lti.onConnect(async (token, req, res, next) => {
+lti.onConnect(async (token, req, res) => {
   if (token) return res.sendFile(path.join(__dirname, './public/index.html'))
   else lti.redirect(res, '/nolti') // Redirects to landing page
 })
 
 // When receiving deep linking request redirects to deep link React screen
-lti.onDeepLinking(async (connection, request, response) => {
-  return lti.redirect(response, '/deeplink', { newResource: true })
+lti.onDeepLinking(async (token, req, res) => {
+  return lti.redirect(res, '/deeplink', { newResource: true })
 })
 
 // Setting up routes

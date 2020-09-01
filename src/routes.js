@@ -29,7 +29,7 @@ router.post('/grade', async (req, res) => {
 // Names and Roles route
 router.get('/members', async (req, res) => {
   try {
-    const result = await lti.NamesAndRoles.getMembers(res.locals.token)
+    const result = await lti.NamesAndRoles.getMembers(res.locals.token, { limit: 1 })
     if (result) return res.send(result.members)
     return res.sendStatus(500)
   } catch (err) {
@@ -91,7 +91,7 @@ router.get('/info', async (req, res) => {
     if (token.userInfo.email) info.email = token.userInfo.email
   }
 
-  if (token.roles) info.roles = token.roles
+  if (context.roles) info.roles = context.roles
   if (context.context) info.context = context.context
 
   return res.send(info)
