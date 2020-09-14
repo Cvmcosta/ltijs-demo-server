@@ -18,7 +18,7 @@
 
   ```
   DB_HOST=localhost
-  DB_NAME=ltimoodle
+  DB_NAME=ltidb
   DB_USER=user
   DB_PASS=pass
   LTI_KEY=LTIKEY
