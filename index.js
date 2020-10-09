@@ -23,7 +23,7 @@ lti.whitelist(lti.appRoute(), { route: new RegExp(/^\/nolti$/), method: 'get' })
 
 // When receiving successful LTI launch redirects to app, otherwise redirects to landing page
 lti.onConnect(async (token, req, res) => {
-  if (token) return res.sendFile(path.join(__dirname, './public/index.html'))
+  if (token) return lti.redirect(res, 'http://localhost:3001')
   else lti.redirect(res, '/nolti') // Redirects to landing page
 })
 
