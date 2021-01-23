@@ -29,7 +29,7 @@ router.post('/grade', async (req, res) => {
 // Names and Roles route
 router.get('/members', async (req, res) => {
   try {
-    const result = await lti.NamesAndRoles.getMembers(res.locals.token, { limit: 1 })
+    const result = await lti.NamesAndRoles.getMembers(res.locals.token)
     if (result) return res.send(result.members)
     return res.sendStatus(500)
   } catch (err) {
@@ -97,7 +97,7 @@ router.get('/info', async (req, res) => {
   return res.send(info)
 })
 
-// Wildcard route to deal with redirecting to routes that are actually React routes
+// Wildcard route to deal with redirecting to React routes
 router.get('*', (req, res) => res.sendFile(path.join(__dirname, '../public/index.html')))
 
 module.exports = router

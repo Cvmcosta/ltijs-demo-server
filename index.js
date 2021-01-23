@@ -18,16 +18,12 @@ lti.setup(process.env.LTI_KEY,
     devMode: true // Set DevMode to true if the testing platform is in a different domain and https is not being used
   })
 
-// Whitelisting the main app route and /nolti to create a landing page
-lti.whitelist(lti.appRoute(), { route: new RegExp(/^\/nolti$/), method: 'get' }) // Example Regex usage
-
-// When receiving successful LTI launch redirects to app, otherwise redirects to landing page
+// When receiving successful LTI launch redirects to app
 lti.onConnect(async (token, req, res) => {
-  if (token) return res.sendFile(path.join(__dirname, './public/index.html'))
-  else lti.redirect(res, '/nolti') // Redirects to landing page
+  return res.sendFile(path.join(__dirname, './public/index.html'))
 })
 
-// When receiving deep linking request redirects to deep link React screen
+// When receiving deep linking request redirects to deep screen
 lti.onDeepLinking(async (token, req, res) => {
   return lti.redirect(res, '/deeplink', { newResource: true })
 })
