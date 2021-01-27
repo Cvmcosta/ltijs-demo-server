@@ -7,22 +7,41 @@ const lti = require('ltijs').Provider
 // Grading route
 router.post('/grade', async (req, res) => {
   try {
-    const lineItem = {
+    const idtoken = res.locals.token // IdToken
+    const score = req.body.grade // User numeric score sent in the body
+    // Creating Grade object
+    const gradeObj = {
+      userId: idtoken.user,
+      scoreGiven: score,
       scoreMaximum: 100,
-      label: 'Grade',
-      tag: 'grade'
-    }
-
-    const grade = {
-      scoreGiven: req.body.grade,
       activityProgress: 'Completed',
       gradingProgress: 'FullyGraded'
     }
-    await lti.Grade.scorePublish(res.locals.token, grade, { resourceLinkId: true, autoCreate: lineItem })
-    return res.sendStatus(201)
+
+    // Selecting linetItem ID
+    let lineItemId = idtoken.platformContext.endpoint.lineitem // Attempting to retrieve it from idtoken
+    if (!lineItemId) {
+      const response = await lti.Grade.getLineItems(idtoken, { resourceLinkId: true })
+      const lineItems = response.lineItems
+      if (lineItems.length === 0) {
+        // Creating line item if there is none
+        console.log('Creating new line item')
+        const newLineItem = {
+          scoreMaximum: 100,
+          label: 'Grade',
+          tag: 'grade',
+          resourceLinkId: idtoken.platformContext.resource.id
+        }
+        const lineItem = await lti.Grade.createLineItem(idtoken, newLineItem)
+        lineItemId = lineItem.id
+      } else lineItemId = lineItems[0].id
+    }
+
+    // Sending Grade
+    const responseGrade = await lti.Grade.submitScore(idtoken, lineItemId, gradeObj)
+    return res.send(responseGrade)
   } catch (err) {
-    console.log(err.message)
-    return res.status(500).send(err.message)
+    return res.status(500).send({ err: err.message })
   }
 })
 
