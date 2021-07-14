@@ -38,6 +38,7 @@ const setup = async () => {
   /**
    * Register platform
    */
+  // Moodle
   /* await lti.registerPlatform({
     url: 'http://localhost/moodle',
     name: 'Platform',
@@ -45,6 +46,16 @@ const setup = async () => {
     authenticationEndpoint: 'http://localhost/moodle/mod/lti/auth.php',
     accesstokenEndpoint: 'http://localhost/moodle/mod/lti/token.php',
     authConfig: { method: 'JWK_SET', key: 'http://localhost/moodle/mod/lti/certs.php' }
+  }) */
+  // Canvas
+    //you may need to change the root uri from including test to whichever environment you are uploading to
+   /* await lti.registerPlatform({
+    url: 'https://canvas.test.instructure.com',
+    name: 'Platform',
+    clientId: 'CLIENTID',
+    authenticationEndpoint: 'https://canvas.test.instructure.com/api/lti/authorize_redirect',
+    accesstokenEndpoint: 'https://canvas.test.instructure.com/login/oauth2/token',
+    authConfig: { method: 'JWK_SET', key: 'https://canvas.test.instructure.com/api/lti/security/jwks' }
   }) */
 }
 
