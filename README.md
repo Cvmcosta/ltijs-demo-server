@@ -1,3 +1,5 @@
+[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/Cvmcosta/ltijs-demo-server)
+
 <div align="center">
 	<br>
 	<br>
@@ -28,6 +30,24 @@
 - Run `npm install`
 
 - Run `npm start` 
+
+### Usage on gitpod.io
+
+Open https://gitpod.io/#https://github.com/Cvmcosta/ltijs-demo-server to start this application on Gitpod.
+
+The gitpod configuration starts a local database server.
+
+Use `gp env` to set the environment variables once:
+
+```
+eval $(gp env -e DB_HOST=localhost DB_NAME=ltimoodle LTI_KEY=JB3LabPQP9tX4jw4XhkqUEi8Vu7UbzmG)
+```
+
+The environment variables will be stored to your local container and retrieved afterwards. Choose your own LTI_KEY.
+
+The application can be started using `npm start` in the terminal.
+
+Execute `gp url 3000` in a new terminal to retrieve the base URL.
 
 ### React application
 
