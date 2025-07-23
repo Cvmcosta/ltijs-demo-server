@@ -8,44 +8,48 @@ const lti = require('ltijs').Provider
 lti.setup(process.env.LTI_KEY,
   {
     url: 'mongodb://' + process.env.DB_HOST + '/' + process.env.DB_NAME + '?authSource=admin',
-    connection: { user: process.env.DB_USER, pass: process.env.DB_PASS }
   }, {
-    staticPath: path.join(__dirname, './public'), // Path to static files
+    staticPath: path.join(__dirname, './public'), // serve os arquivos estáticos do React build
     cookies: {
-      secure: false, // Set secure to true if the testing platform is in a different domain and https is being used
-      sameSite: '' // Set sameSite to 'None' if the testing platform is in a different domain and https is being used
+      secure: false,
+      sameSite: ''
     },
-    devMode: true // Set DevMode to true if the testing platform is in a different domain and https is not being used
+    devMode: true
   })
 
-// When receiving successful LTI launch redirects to app
+// Quando a conexão LTI for estabelecida, envia o React buildado
 lti.onConnect(async (token, req, res) => {
-  return res.sendFile(path.join(__dirname, './public/index.html'))
+  return res.sendFile(path.join(__dirname, 'public', 'index.html'))
 })
 
-// When receiving deep linking request redirects to deep screen
+// Quando receber deep linking, pode manter a mesma lógica
 lti.onDeepLinking(async (token, req, res) => {
   return lti.redirect(res, '/deeplink', { newResource: true })
 })
 
-// Setting up routes
+// Rota customizada, mantém o que já tem
 lti.app.use(routes)
 
-// Setup function
+// Fallback: qualquer rota desconhecida envia o React
+lti.app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'))
+})
+
+// Deploy do servidor
 const setup = async () => {
   await lti.deploy({ port: process.env.PORT })
 
-  /**
-   * Register platform
-   */
-  /* await lti.registerPlatform({
+  // Registro da plataforma (se precisar)
+  /*
+  await lti.registerPlatform({
     url: 'http://localhost/moodle',
     name: 'Platform',
     clientId: 'CLIENTID',
     authenticationEndpoint: 'http://localhost/moodle/mod/lti/auth.php',
     accesstokenEndpoint: 'http://localhost/moodle/mod/lti/token.php',
     authConfig: { method: 'JWK_SET', key: 'http://localhost/moodle/mod/lti/certs.php' }
-  }) */
+  })
+  */
 }
 
 setup()
