@@ -2,10 +2,12 @@
   "name": "ltijs-demo",
   "version": "1.0.0",
   "description": "Ltijs demo server",
-  "main": "index.js",
+  "private": true,
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "env DEBUG=provider:* node index.js"
+    "dev": "npm run dev --prefix client & tsx watch server/index.ts",
+    "build": "npm run build --prefix client",
+    "start": "tsx server/index.ts"
   },
   "keywords": [
     "lti",
@@ -16,9 +18,17 @@
   ],
   "author": "cvmcosta",
   "license": "MIT",
+  "engines": {
+    "node": ">=24"
+  },
   "dependencies": {
-    "dotenv": "^16.0.3",
-    "express": "^4.18.2",
-    "ltijs": "^5.9.1"
+    "dotenv": "^16.4.5",
+    "express": "^5.2.1",
+    "ltijs": "^7.0.3",
+    "tsx": "^4.19.2"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^24"
   }
 }
