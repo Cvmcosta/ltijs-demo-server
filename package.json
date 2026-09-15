@@ -24,7 +24,7 @@
   "dependencies": {
     "dotenv": "^16.4.5",
     "express": "^5.2.1",
-    "ltijs": "^7.0.3",
+    "ltijs": "^7.0.5",
     "tsx": "^4.19.2"
   },
   "devDependencies": {

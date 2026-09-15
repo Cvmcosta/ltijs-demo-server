@@ -1,15 +1,31 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLtik } from '../lib/use-ltik'
-import { apiFetch, postJson } from '../lib/api'
+import { apiFetch, apiFetchJson, postJson } from '../lib/api'
 import { useToast } from '../components/toast'
 import { PageShell } from '../components/page-shell'
 import { HomeLink } from '../components/home-link'
+
+interface Result {
+  resultScore?: number
+  resultMaximum?: number
+}
 
 export function Grades() {
   const ltik = useLtik()
   const toast = useToast()
   const [grade, setGrade] = useState(70)
   const [submitting, setSubmitting] = useState(false)
+  const [scores, setScores] = useState<Result[]>()
+
+  useEffect(() => {
+    if (ltik === undefined) return
+    apiFetchJson<Result[]>(ltik, '/grade')
+      .then(setScores)
+      .catch((error: unknown) => {
+        toast.error(`Failed retrieving current score! ${error instanceof Error ? error.message : String(error)}`)
+      })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ltik])
 
   if (ltik === undefined) return null
 
@@ -18,6 +34,7 @@ export function Grades() {
     try {
       await apiFetch(ltik, '/grade', postJson({ grade }))
       toast.success(`Grade ${grade} successfully sent!`)
+      setScores(await apiFetchJson<Result[]>(ltik, '/grade'))
     } catch (error) {
       toast.error(`Failed sending grade to platform! ${error instanceof Error ? error.message : String(error)}`)
     } finally {
@@ -25,10 +42,18 @@ export function Grades() {
     }
   }
 
+  const current = scores?.[0]
+
   return (
     <PageShell>
       <div className="flex flex-col gap-6">
         <h1 className="text-lg font-semibold">Select your grade</h1>
+
+        <p className="text-sm text-foreground/70">
+          {current === undefined
+            ? 'No score submitted yet.'
+            : `Current score: ${current.resultScore ?? '?'}/${current.resultMaximum ?? '?'}`}
+        </p>
 
         <div className="flex items-center gap-4">
           <input
